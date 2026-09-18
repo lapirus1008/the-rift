@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE RIFT</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            background: #08080d;
+            color: #eee;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .screen {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        #mainScreen {
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at center, #17152b 0%, #090910 45%, #050507 100%);
+        }
+
+        .title {
+            position: absolute;
+            top: 60px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .title h1 {
+            margin: 0;
+            font-size: 58px;
+            letter-spacing: 14px;
+            font-weight: 700;
+        }
+
+        .title p {
+            margin-top: 12px;
+            color: #999;
+            letter-spacing: 4px;
+            font-size: 13px;
+        }
+
+        .rift-container {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 45px;
+        }
+
+        .rift {
+            width: 170px;
+            height: 220px;
+            border: 3px solid #9c7cff;
+            border-radius: 50%;
+            transform: rotate(12deg);
+            box-shadow:
+                0 0 15px #7254ff,
+                0 0 40px #4c36b5,
+                inset 0 0 30px #4c36b5;
+            animation: riftPulse 2.5s infinite ease-in-out;
+            position: relative;
+        }
+
+        .rift::before {
+            content: "";
+            position: absolute;
+            width: 110px;
+            height: 180px;
+            left: 27px;
+            top: 17px;
+            border: 2px solid #d1c6ff;
+            border-radius: 50%;
+            opacity: 0.55;
+        }
+
+        .rift::after {
+            content: "";
+            position: absolute;
+            width: 55px;
+            height: 120px;
+            left: 53px;
+            top: 48px;
+            background: #0b0915;
+            border-radius: 50%;
+            box-shadow: 0 0 25px #25195d;
+        }
+
+        @keyframes riftPulse {
+            0%, 100% {
+                transform: rotate(12deg) scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: rotate(12deg) scale(1.08);
+                opacity: 1;
+            }
+        }
+
+        .main-buttons {
+            display: flex;
+            gap: 12px;
+            z-index: 2;
+        }
+
+        .main-button {
+            min-width: 150px;
+            padding: 14px 24px;
+            border: 1px solid #55448d;
+            background: rgba(25, 20, 50, 0.8);
+            color: #eee;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .main-button:hover {
+            background: #30245d;
+            border-color: #9c7cff;
+            transform: translateY(-2px);
+        }
+
+        .version {
+            position: absolute;
+            bottom: 20px;
+            color: #555;
+            font-size: 11px;
+        }
+
+        /* =========================
+           GAME
+        ========================= */
+
+        #gameScreen {
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            background: #08080d;
+        }
+
+        .game-wrapper {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #282633;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .rift-name {
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        .timer {
+            font-family: monospace;
+            font-size: 24px;
+            color: #c5b8ff;
+        }
+
+        .status-panel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .status-box {
+            padding: 15px;
+            background: #111018;
+            border: 1px solid #292633;
+            text-align: center;
+        }
+
+        .status-label {
+            color: #777;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .status-value {
+            font-size: 20px;
+        }
+
+        .game-card {
+            background: #111018;
+            border: 1px solid #292633;
+            padding: 30px;
+            text-align: center;
+            min-height: 330px;
+        }
+
+        .game-card h2 {
+            margin-top: 0;
+            font-size: 26px;
+        }
+
+        .game-description {
+            color: #999;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .choice-button {
+            padding: 20px 10px;
+            background: #181620;
+            color: #eee;
+            border: 1px solid #39334b;
+            transition: 0.2s;
+        }
+
+        .choice-button:hover {
+            border-color: #9277e8;
+            background: #252039;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            background: transparent;
+            color: #777;
+            border: 0;
+        }
+
+        .back-button:hover {
+            color: #fff;
+        }
+
+        /* =========================
+           RANKING
+        ========================= */
+
+        #rankingScreen {
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .ranking-wrapper {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .ranking-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .ranking-title h2 {
+            font-size: 32px;
+            letter-spacing: 5px;
+            margin-bottom: 8px;
+        }
+
+        .ranking-title p {
+            color: #777;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #111018;
+            border: 1px solid #292633;
+        }
+
+        .ranking-table th,
+        .ranking-table td {
+            padding: 15px;
+            border-bottom: 1px solid #25232e;
+            text-align: center;
+        }
+
+        .ranking-table th {
+            color: #777;
+            font-size: 12px;
+        }
+
+        .ranking-table td {
+            font-family: monospace;
+        }
+
+        /* =========================
+           CLEAR
+        ========================= */
+
+        #clearScreen {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background:
+                radial-gradient(circle at center, #20194a 0%, #090910 55%);
+        }
+
+        .clear-box {
+            padding: 50px;
+            border: 1px solid #55448d;
+            background: rgba(15, 13, 25, 0.9);
+        }
+
+        .clear-box h1 {
+            letter-spacing: 8px;
+            margin-top: 0;
+        }
+
+        .clear-time {
+            font-family: monospace;
+            font-size: 42px;
+            color: #c5b8ff;
+            margin: 25px 0;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 600px) {
+            .title h1 {
+                font-size: 38px;
+                letter-spacing: 8px;
+            }
+
+            .main-buttons {
+                flex-direction: column;
+                width: 180px;
+            }
+
+            .main-button {
+                width: 100%;
+            }
+
+            .choice-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .status-panel {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .game-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         MAIN SCREEN
+    ========================= -->
+
+    <section id="mainScreen" class="screen active">
+
+        <div class="title">
+            <h1>THE RIFT</h1>
+            <p>ENTER THE UNKNOWN</p>
+        </div>
+
+        <div class="rift-container">
+            <div class="rift"></div>
+        </div>
+
+        <div class="main-buttons">
+            <button class="main-button" onclick="startGame()">
+                균열 진입
+            </button>
+
+            <button class="main-button" onclick="showRanking()">
+                랭킹
+            </button>
+        </div>
+
+        <div class="version">
+            THE RIFT v0.1
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         GAME SCREEN
+    ========================= -->
+
+    <section id="gameScreen" class="screen">
+
+        <div class="game-wrapper">
+
+            <div class="game-header">
+                <div class="rift-name">
+                    RIFT-001
+                </div>
+
+                <div id="timer" class="timer">
+                    00:00.000
+                </div>
+            </div>
+
+            <div class="status-panel">
+
+                <div class="status-box">
+                    <div class="status-label">HP</div>
+                    <div id="playerHp" class="status-value">100 / 100</div>
+                </div>
+
+                <div class="status-box">
+                    <div class="status-label">ATTACK</div>
+                    <div id="playerAttack" class="status-value">10</div>
+                </div>
+
+                <div class="status-box">
+                    <div class="status-label">DEFENSE</div>
+                    <div id="playerDefense" class="status-value">3</div>
+                </div>
+
+            </div>
+
+            <div class="game-card">
+
+                <h2 id="roomTitle">
+                    균열 내부
+                </h2>
+
+                <div id="roomDescription" class="game-description">
+                    균열이 당신을 받아들였다.<br>
+                    앞에 여러 갈래의 길이 나타난다.
+                </div>
+
+                <div id="choiceArea" class="choice-grid">
+
+                    <button class="choice-button" onclick="chooseRoom('battle')">
+                        ⚔ 전투
+                    </button>
+
+                    <button class="choice-button" onclick="chooseRoom('treasure')">
+                        ◆ 보물
+                    </button>
+
+                    <button class="choice-button" onclick="chooseRoom('event')">
+                        ? 이벤트
+                    </button>
+
+                </div>
+
+                <button class="back-button" onclick="goMain()">
+                    ← 메인으로
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         RANKING SCREEN
+    ========================= -->
+
+    <section id="rankingScreen" class="screen">
+
+        <div class="ranking-wrapper">
+
+            <div class="ranking-title">
+                <h2>RIFT RANKING</h2>
+                <p>RIFT-001</p>
+            </div>
+
+            <table class="ranking-table">
+
+                <thead>
+                    <tr>
+                        <th>RANK</th>
+                        <th>PLAYER</th>
+                        <th>TIME</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>1</td>
+                        <td>RiftWalker</td>
+                        <td>02:31.442</td>
+                    </tr>
+
+                    <tr>
+                        <td>2</td>
+                        <td>Void</td>
+                        <td>02:45.123</td>
+                    </tr>
+
+                    <tr>
+                        <td>3</td>
+                        <td>Unknown</td>
+                        <td>02:51.881</td>
+                    </tr>
+
+                    <tr>
+                        <td>4</td>
+                        <td>Player01</td>
+                        <td>03:02.442</td>
+                    </tr>
+
+                    <tr>
+                        <td>5</td>
+                        <td>Player02</td>
+                        <td>03:11.927</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div style="text-align:center;">
+                <button class="back-button" onclick="goMain()">
+                    ← 메인으로
+                </button>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CLEAR SCREEN
+    ========================= -->
+
+    <section id="clearScreen" class="screen">
+
+        <div class="clear-box">
+
+            <h1>RIFT CLEAR</h1>
+
+            <div class="clear-time" id="clearTime">
+                00:00.000
+            </div>
+
+            <p>
+                균열의 끝에 도달했습니다.
+            </p>
+
+            <br>
+
+            <button class="main-button" onclick="startGame()">
+                다시 도전
+            </button>
+
+            <br>
+
+            <button class="back-button" onclick="goMain()">
+                메인으로
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <script>
+
+        var currentScreen = "mainScreen";
+
+        var gameStartTime = 0;
+        var timerInterval = null;
+
+        var player = {
+            hp: 100,
+            maxHp: 100,
+            attack: 10,
+            defense: 3
+        };
+
+        var roomCount = 0;
+
+
+        function showScreen(screenId) {
+
+            var screens = document.querySelectorAll(".screen");
+
+            screens.forEach(function(screen) {
+                screen.classList.remove("active");
+            });
+
+            document.getElementById(screenId).classList.add("active");
+
+            currentScreen = screenId;
+        }
+
+
+        function startGame() {
+
+            player.hp = 100;
+            player.maxHp = 100;
+            player.attack = 10;
+            player.defense = 3;
+
+            roomCount = 0;
+
+            updateStatus();
+
+            gameStartTime = Date.now();
+
+            clearInterval(timerInterval);
+
+            timerInterval = setInterval(function() {
+
+                var elapsed = Date.now() - gameStartTime;
+
+                document.getElementById("timer").textContent =
+                    formatTime(elapsed);
+
+            }, 30);
+
+            showScreen("gameScreen");
+
+            resetRoom();
+
+        }
+
+
+        function resetRoom() {
+
+            roomCount++;
+
+            if (roomCount >= 5) {
+
+                showBoss();
+
+                return;
+            }
+
+            document.getElementById("roomTitle").textContent =
+                "균열의 방 " + roomCount;
+
+            document.getElementById("roomDescription").innerHTML =
+                "균열 내부에서 새로운 길이 나타났다.<br>" +
+                "어떤 길을 선택할 것인가?";
+
+            document.getElementById("choiceArea").innerHTML =
+
+                '<button class="choice-button" onclick="chooseRoom(\'battle\')">' +
+                '⚔ 전투' +
+                '</button>' +
+
+                '<button class="choice-button" onclick="chooseRoom(\'treasure\')">' +
+                '◆ 보물' +
+                '</button>' +
+
+                '<button class="choice-button" onclick="chooseRoom(\'event\')">' +
+                '? 이벤트' +
+                '</button>';
+        }
+
+
+        function chooseRoom(type) {
+
+            if (type === "battle") {
+                showBattle();
+                return;
+            }
+
+            if (type === "treasure") {
+                showTreasure();
+                return;
+            }
+
+            if (type === "event") {
+                showEvent();
+                return;
+            }
+        }
+
+
+        function showBattle() {
+
+            var monsterHp = 25;
+            var monsterAttack = 6;
+
+            document.getElementById("roomTitle").textContent =
+                "균열의 망령";
+
+            document.getElementById("roomDescription").innerHTML =
+                "HP: <strong id='monsterHp'>" + monsterHp + "</strong><br><br>" +
+                "망령이 당신을 바라보고 있다.";
+
+            document.getElementById("choiceArea").innerHTML =
+
+                '<button class="choice-button" onclick="attackMonster()">' +
+                '⚔ 공격' +
+                '</button>' +
+
+                '<button class="choice-button" onclick="defendMonster()">' +
+                '🛡 방어' +
+                '</button>' +
+
+                '<button class="choice-button" onclick="heavyAttack()">' +
+                '◆ 강타' +
+                '</button>';
+
+            window.currentMonster = {
+                hp: monsterHp,
+                maxHp: monsterHp,
+                attack: monsterAttack,
+                defended: false,
+                heavyCooldown: 0
+            };
+        }
+
+
+        function attackMonster() {
+
+            var monster = window.currentMonster;
+
+            monster.hp -= player.attack;
+
+            if (monster.hp <= 0) {
+
+                battleWin();
+                return;
+            }
+
+            monsterTurn();
+            updateBattleScreen();
+        }
+
+
+        function heavyAttack() {
+
+            var monster = window.currentMonster;
+
+            if (monster.heavyCooldown > 0) {
+                alert("강타는 아직 사용할 수 없습니다.");
+                return;
+            }
+
+            monster.hp -= player.attack * 2;
+
+            monster.heavyCooldown = 3;
+
+            if (monster.hp <= 0) {
+
+                battleWin();
+                return;
+            }
+
+            monsterTurn();
+            updateBattleScreen();
+        }
+
+
+        function defendMonster() {
+
+            window.currentMonster.defended = true;
+
+            monsterTurn();
+
+            window.currentMonster.defended = false;
+
+            updateBattleScreen();
+        }
+
+
+        function monsterTurn() {
+
+            var monster = window.currentMonster;
+
+            var damage = monster.attack - player.defense;
+
+            if (damage < 1) {
+                damage = 1;
+            }
+
+            if (monster.defended) {
+                damage = Math.floor(damage / 2);
+            }
+
+            player.hp -= damage;
+
+            if (monster.heavyCooldown > 0) {
+                monster.heavyCooldown--;
+            }
+
+            if (player.hp <= 0) {
+
+                player.hp = 0;
+
+                clearInterval(timerInterval);
+
+                alert("YOU DIED");
+
+                goMain();
+
+                return;
+            }
+
+            updateStatus();
+        }
+
+
+        function updateBattleScreen() {
+
+            var monster = window.currentMonster;
+
+            document.getElementById("monsterHp").textContent =
+                Math.max(monster.hp, 0);
+        }
+
+
+        function battleWin() {
+
+            player.attack += 3;
+
+            updateStatus();
+
+            document.getElementById("roomTitle").textContent =
+                "전투 승리";
+
+            document.getElementById("roomDescription").innerHTML =
+                "적을 처치했다.<br>" +
+                "보상으로 공격력이 <strong>+3</strong> 증가했다.";
+
+            document.getElementById("choiceArea").innerHTML =
+
+                '<button class="choice-button" onclick="resetRoom()">' +
+                '다음 방으로' +
+                '</button>';
+        }
+
+
+        function showTreasure() {
+
+            document.getElementById("roomTitle").textContent =
+                "균열의 보물";
+
+            document.getElementById("roomDescription").innerHTML =
+                "오래된 보물 상자가 놓여 있다.<br>" +
+                "하나를 선택할 수 있다.";
+
+            document.getElementById("choiceArea").innerHTML =
+
+                '<button class="choice-button" onclick="takeTreasure(\'attack\')">' +
+                '공격력 +5' +
+                '</button>' +
+
+                '<button class="choice-button" onclick="takeTreasure(\'hp\')">' +
+                '최대 HP +20' +
+                '</button>' +
+
+                '<button class="choice-button" onclick="takeTreasure(\'heal\')">' +
+                'HP +20' +
+                '</button>';
+        }
+
+
+        function takeTreasure(type) {
+
+            if (type === "attack") {
+                player.attack += 5;
+            }
+
+            if (type === "hp") {
+                player.maxHp += 20;
+                player.hp += 20;
+            }
+
+            if (type === "heal") {
+                player.hp += 20;
+
+                if (player.hp > player.maxHp) {
+                    player.hp = player.maxHp;
+                }
+            }
+
+            updateStatus();
+
+            resetRoom();
+        }
+
+
+        function showEvent() {
+
+            document.getElementById("roomTitle").textContent =
+                "수상한 제단";
+
+            document.getElementById("roomDescription").innerHTML =
+                "제단에서 정체불명의 힘이 흘러나온다.<br>" +
+                "힘을 받아들일 것인가?";
+
+            document.getElementById("choiceArea").innerHTML =
+
+                '<button class="choice-button" onclick="acceptPower()">' +
+                '힘을 받아들인다' +
+                '</button>' +
+
+                '<button class="choice-button" onclick="resetRoom()">' +
+                '지나간다' +
+                '</button>';
+        }
+
+
+        function acceptPower() {
+
+            player.attack += 8;
+            player.hp -= 10;
+
+            if (player.hp < 1) {
+                player.hp = 1;
+            }
+
+            updateStatus();
+
+            resetRoom();
+        }
+
+
+        function showBoss() {
+
+            var bossHp = 100;
+
+            document.getElementById("roomTitle").textContent =
+                "균열의 군주";
+
+            document.getElementById("roomDescription").innerHTML =
+                "균열의 끝.<br>" +
+                "거대한 존재가 당신을 기다리고 있다.<br><br>" +
+                "BOSS HP: <strong id='bossHp'>" + bossHp + "</strong>";
+
+            document.getElementById("choiceArea").innerHTML =
+
+                '<button class="choice-button" onclick="attackBoss()">' +
+                '⚔ 공격' +
+                '</button>' +
+
+                '<button class="choice-button" onclick="defendBoss()">' +
+                '🛡 방어' +
+                '</button>' +
+
+                '<button class="choice-button" onclick="heavyBoss()">' +
+                '◆ 강타' +
+                '</button>';
+
+            window.currentBoss = {
+                hp: bossHp,
+                attack: 10,
+                defended: false
+            };
+        }
+
+
+        function attackBoss() {
+
+            var boss = window.currentBoss;
+
+            boss.hp -= player.attack;
+
+            if (boss.hp <= 0) {
+                clearGame();
+                return;
+            }
+
+            bossTurn();
+            updateBossScreen();
+        }
+
+
+        function heavyBoss() {
+
+            var boss = window.currentBoss;
+
+            boss.hp -= player.attack * 2;
+
+            if (boss.hp <= 0) {
+                clearGame();
+                return;
+            }
+
+            bossTurn();
+            updateBossScreen();
+        }
+
+
+        function defendBoss() {
+
+            window.currentBoss.defended = true;
+
+            bossTurn();
+
+            window.currentBoss.defended = false;
+
+            updateBossScreen();
+        }
+
+
+        function bossTurn() {
+
+            var boss = window.currentBoss;
+
+            var damage = boss.attack - player.defense;
+
+            if (damage < 1) {
+                damage = 1;
+            }
+
+            if (boss.defended) {
+                damage = Math.floor(damage / 2);
+            }
+
+            player.hp -= damage;
+
+            if (player.hp <= 0) {
+
+                player.hp = 0;
+
+                clearInterval(timerInterval);
+
+                alert("YOU DIED");
+
+                goMain();
+
+                return;
+            }
+
+            updateStatus();
+        }
+
+
+        function updateBossScreen() {
+
+            var boss = window.currentBoss;
+
+            document.getElementById("bossHp").textContent =
+                Math.max(boss.hp, 0);
+        }
+
+
+        function clearGame() {
+
+            clearInterval(timerInterval);
+
+            var clearTime = Date.now() - gameStartTime;
+
+            document.getElementById("clearTime").textContent =
+                formatTime(clearTime);
+
+            showScreen("clearScreen");
+        }
+
+
+        function updateStatus() {
+
+            document.getElementById("playerHp").textContent =
+                player.hp + " / " + player.maxHp;
+
+            document.getElementById("playerAttack").textContent =
+                player.attack;
+
+            document.getElementById("playerDefense").textContent =
+                player.defense;
+        }
+
+
+        function showRanking() {
+
+            showScreen("rankingScreen");
+        }
+
+
+        function goMain() {
+
+            clearInterval(timerInterval);
+
+            showScreen("mainScreen");
+        }
+
+
+        function formatTime(ms) {
+
+            var minutes = Math.floor(ms / 60000);
+
+            var seconds = Math.floor((ms % 60000) / 1000);
+
+            var milliseconds = ms % 1000;
+
+            return String(minutes).padStart(2, "0") +
+                ":" +
+                String(seconds).padStart(2, "0") +
+                "." +
+                String(milliseconds).padStart(3, "0");
+        }
+
+    </script>
+
+</body>
+</html>
