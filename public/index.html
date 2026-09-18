@@ -10,380 +10,371 @@
             box-sizing: border-box;
         }
 
-        html,
         body {
             margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100%;
-            background: #08080d;
-            color: #eee;
+            background: #08080c;
+            color: #f5f5f5;
             font-family: Arial, sans-serif;
         }
 
-        body {
-            min-height: 100vh;
+        button,
+        input {
+            font: inherit;
         }
 
         button {
-            font-family: inherit;
             cursor: pointer;
         }
 
         .screen {
-            display: none;
             min-height: 100vh;
-        }
-
-        .screen.active {
             display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
         }
 
-        /* =========================
-           MAIN
-        ========================= */
+        .hidden {
+            display: none !important;
+        }
 
-        #mainScreen {
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-            background:
-                radial-gradient(circle at center, #17152b 0%, #090910 45%, #050507 100%);
+        .container {
+            width: 100%;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        /* MAIN */
+
+        .main-content {
+            text-align: center;
         }
 
         .title {
-            position: absolute;
-            top: 60px;
-            text-align: center;
-            z-index: 2;
+            font-size: 64px;
+            letter-spacing: 12px;
+            margin: 0 0 16px;
         }
 
-        .title h1 {
-            margin: 0;
-            font-size: 58px;
-            letter-spacing: 14px;
-            font-weight: 700;
-        }
-
-        .title p {
-            margin-top: 12px;
-            color: #999;
+        .subtitle {
+            color: #888;
             letter-spacing: 4px;
-            font-size: 13px;
+            margin-bottom: 50px;
         }
 
-        .rift-container {
-            position: relative;
+        .portal {
             width: 260px;
             height: 260px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 45px;
-        }
-
-        .rift {
-            width: 170px;
-            height: 220px;
-            border: 3px solid #9c7cff;
+            margin: 0 auto 55px;
+            border: 2px solid #777;
             border-radius: 50%;
-            transform: rotate(12deg);
-            box-shadow:
-                0 0 15px #7254ff,
-                0 0 40px #4c36b5,
-                inset 0 0 30px #4c36b5;
-            animation: riftPulse 2.5s infinite ease-in-out;
             position: relative;
+            animation: pulse 3s infinite;
+            box-shadow:
+                0 0 30px rgba(255,255,255,.12),
+                inset 0 0 30px rgba(255,255,255,.08);
         }
 
-        .rift::before {
+        .portal::before,
+        .portal::after {
             content: "";
             position: absolute;
-            width: 110px;
-            height: 180px;
-            left: 27px;
-            top: 17px;
-            border: 2px solid #d1c6ff;
+            inset: 25px;
+            border: 1px solid #555;
             border-radius: 50%;
-            opacity: 0.55;
+            animation: rotate 8s linear infinite;
         }
 
-        .rift::after {
-            content: "";
-            position: absolute;
-            width: 55px;
-            height: 120px;
-            left: 53px;
-            top: 48px;
-            background: #0b0915;
-            border-radius: 50%;
-            box-shadow: 0 0 25px #25195d;
+        .portal::after {
+            inset: 55px;
+            animation-direction: reverse;
+            animation-duration: 5s;
         }
 
-        @keyframes riftPulse {
-            0%, 100% {
-                transform: rotate(12deg) scale(1);
-                opacity: 0.8;
-            }
-
+        @keyframes pulse {
             50% {
-                transform: rotate(12deg) scale(1.08);
-                opacity: 1;
+                transform: scale(1.04);
+                box-shadow:
+                    0 0 60px rgba(255,255,255,.2),
+                    inset 0 0 40px rgba(255,255,255,.12);
             }
         }
 
-        .main-buttons {
+        @keyframes rotate {
+            from {
+                transform: rotate(0);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .menu-buttons {
             display: flex;
-            gap: 12px;
-            z-index: 2;
-        }
-
-        .main-button {
-            min-width: 150px;
-            padding: 14px 24px;
-            border: 1px solid #55448d;
-            background: rgba(25, 20, 50, 0.8);
-            color: #eee;
-            font-size: 15px;
-            transition: 0.2s;
-        }
-
-        .main-button:hover {
-            background: #30245d;
-            border-color: #9c7cff;
-            transform: translateY(-2px);
-        }
-
-        .version {
-            position: absolute;
-            bottom: 20px;
-            color: #555;
-            font-size: 11px;
-        }
-
-        /* =========================
-           GAME
-        ========================= */
-
-        #gameScreen {
             justify-content: center;
-            align-items: center;
-            padding: 30px;
-            background: #08080d;
+            gap: 12px;
         }
 
-        .game-wrapper {
-            width: 100%;
-            max-width: 900px;
+        .btn {
+            border: 1px solid #555;
+            background: #111118;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 6px;
+            transition: .2s;
         }
+
+        .btn:hover {
+            background: #202028;
+            border-color: #aaa;
+        }
+
+        .btn-primary {
+            background: #e8e8e8;
+            color: #111;
+            border-color: #e8e8e8;
+        }
+
+        .btn-primary:hover {
+            background: #fff;
+        }
+
+        .btn-danger {
+            border-color: #744;
+        }
+
+        /* LOGIN */
+
+        .panel {
+            background: #101016;
+            border: 1px solid #292932;
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+        .panel h2 {
+            margin-top: 0;
+        }
+
+        .input {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 12px;
+            background: #08080c;
+            border: 1px solid #333;
+            border-radius: 5px;
+            color: #fff;
+            outline: none;
+        }
+
+        .input:focus {
+            border-color: #888;
+        }
+
+        .login-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .login-buttons .btn {
+            flex: 1;
+        }
+
+        .message {
+            min-height: 22px;
+            color: #aaa;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        /* GAME */
 
         .game-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #282633;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        .rift-name {
-            font-size: 18px;
-            letter-spacing: 2px;
+        .game-title {
+            letter-spacing: 4px;
+            font-size: 22px;
         }
 
         .timer {
             font-family: monospace;
-            font-size: 24px;
-            color: #c5b8ff;
-        }
-
-        .status-panel {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .status-box {
-            padding: 15px;
-            background: #111018;
-            border: 1px solid #292633;
-            text-align: center;
-        }
-
-        .status-label {
-            color: #777;
-            font-size: 12px;
-            margin-bottom: 7px;
-        }
-
-        .status-value {
             font-size: 20px;
         }
 
-        .game-card {
-            background: #111018;
-            border: 1px solid #292633;
-            padding: 30px;
-            text-align: center;
-            min-height: 330px;
-        }
-
-        .game-card h2 {
-            margin-top: 0;
-            font-size: 26px;
-        }
-
-        .game-description {
-            color: #999;
-            line-height: 1.7;
-            margin-bottom: 30px;
-        }
-
-        .choice-grid {
+        .stats {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
         }
 
-        .choice-button {
-            padding: 20px 10px;
-            background: #181620;
-            color: #eee;
-            border: 1px solid #39334b;
-            transition: 0.2s;
-        }
-
-        .choice-button:hover {
-            border-color: #9277e8;
-            background: #252039;
-        }
-
-        .back-button {
-            margin-top: 20px;
-            background: transparent;
-            color: #777;
-            border: 0;
-        }
-
-        .back-button:hover {
-            color: #fff;
-        }
-
-        /* =========================
-           RANKING
-        ========================= */
-
-        #rankingScreen {
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-        }
-
-        .ranking-wrapper {
-            width: 100%;
-            max-width: 700px;
-        }
-
-        .ranking-title {
+        .stat {
+            background: #101016;
+            border: 1px solid #292932;
+            padding: 13px;
             text-align: center;
-            margin-bottom: 30px;
+            border-radius: 6px;
         }
 
-        .ranking-title h2 {
-            font-size: 32px;
-            letter-spacing: 5px;
+        .stat-label {
+            color: #777;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+        }
+
+        .room {
+            background: #101016;
+            border: 1px solid #292932;
+            border-radius: 10px;
+            padding: 30px;
+            min-height: 320px;
+        }
+
+        .room-number {
+            color: #777;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .room-title {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .room-description {
+            color: #999;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .choice-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .choice {
+            text-align: left;
+            padding: 17px;
+            background: #15151d;
+            border: 1px solid #333;
+            color: #eee;
+            border-radius: 6px;
+        }
+
+        .choice:hover {
+            background: #20202a;
+            border-color: #777;
+        }
+
+        .combat-enemy {
+            border: 1px solid #333;
+            background: #0b0b10;
+            padding: 18px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .enemy-name {
+            font-size: 21px;
             margin-bottom: 8px;
         }
 
-        .ranking-title p {
-            color: #777;
+        .enemy-hp {
+            color: #bbb;
         }
 
-        .ranking-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #111018;
-            border: 1px solid #292633;
+        .combat-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
 
-        .ranking-table th,
-        .ranking-table td {
-            padding: 15px;
-            border-bottom: 1px solid #25232e;
-            text-align: center;
+        .combat-log {
+            height: 100px;
+            overflow-y: auto;
+            margin-top: 15px;
+            padding: 10px;
+            background: #09090d;
+            border: 1px solid #222;
+            color: #999;
+            font-size: 13px;
+            line-height: 1.6;
         }
 
-        .ranking-table th {
-            color: #777;
-            font-size: 12px;
+        /* RANKING */
+
+        .ranking-list {
+            margin-top: 20px;
         }
 
-        .ranking-table td {
+        .ranking-row {
+            display: grid;
+            grid-template-columns: 55px 1fr 120px;
+            padding: 14px;
+            border-bottom: 1px solid #25252c;
+        }
+
+        .ranking-row:first-child {
+            border-top: 1px solid #25252c;
+        }
+
+        .ranking-time {
+            text-align: right;
             font-family: monospace;
-        }
-
-        /* =========================
-           CLEAR
-        ========================= */
-
-        #clearScreen {
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background:
-                radial-gradient(circle at center, #20194a 0%, #090910 55%);
-        }
-
-        .clear-box {
-            padding: 50px;
-            border: 1px solid #55448d;
-            background: rgba(15, 13, 25, 0.9);
-        }
-
-        .clear-box h1 {
-            letter-spacing: 8px;
-            margin-top: 0;
         }
 
         .clear-time {
+            font-size: 38px;
             font-family: monospace;
-            font-size: 42px;
-            color: #c5b8ff;
-            margin: 25px 0;
+            margin: 30px 0;
         }
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
+        .record {
+            color: #fff;
+            border: 1px solid #777;
+            padding: 10px;
+            display: inline-block;
+            border-radius: 5px;
+            margin-bottom: 25px;
+        }
 
         @media (max-width: 600px) {
-            .title h1 {
-                font-size: 38px;
-                letter-spacing: 8px;
+            .title {
+                font-size: 42px;
+                letter-spacing: 7px;
             }
 
-            .main-buttons {
-                flex-direction: column;
-                width: 180px;
+            .portal {
+                width: 210px;
+                height: 210px;
             }
 
-            .main-button {
-                width: 100%;
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .choice-grid {
+            .combat-actions {
                 grid-template-columns: 1fr;
             }
 
-            .status-panel {
-                grid-template-columns: repeat(3, 1fr);
+            .menu-buttons {
+                flex-direction: column;
             }
 
-            .game-card {
-                padding: 20px;
+            .login-buttons {
+                flex-direction: column;
             }
         }
     </style>
@@ -391,751 +382,1214 @@
 
 <body>
 
-    <!-- =========================
-         MAIN SCREEN
-    ========================= -->
+    <!-- MAIN -->
+    <section id="mainScreen" class="screen">
+        <div class="container main-content">
 
-    <section id="mainScreen" class="screen active">
+            <h1 class="title">THE RIFT</h1>
+            <div class="subtitle">ENTER THE UNKNOWN</div>
 
-        <div class="title">
-            <h1>THE RIFT</h1>
-            <p>ENTER THE UNKNOWN</p>
+            <div class="portal"></div>
+
+            <div class="menu-buttons">
+                <button class="btn btn-primary" onclick="openGame()">
+                    균열 진입
+                </button>
+
+                <button class="btn" onclick="openRanking()">
+                    랭킹
+                </button>
+
+                <button id="loginMenuButton" class="btn" onclick="openLogin()">
+                    로그인
+                </button>
+            </div>
+
+            <div id="userStatus" style="margin-top:20px;color:#777;"></div>
+
         </div>
-
-        <div class="rift-container">
-            <div class="rift"></div>
-        </div>
-
-        <div class="main-buttons">
-            <button class="main-button" onclick="startGame()">
-                균열 진입
-            </button>
-
-            <button class="main-button" onclick="showRanking()">
-                랭킹
-            </button>
-        </div>
-
-        <div class="version">
-            THE RIFT v0.1
-        </div>
-
     </section>
 
 
-    <!-- =========================
-         GAME SCREEN
-    ========================= -->
+    <!-- LOGIN -->
+    <section id="loginScreen" class="screen hidden">
+        <div class="container">
 
-    <section id="gameScreen" class="screen">
+            <div class="panel">
 
-        <div class="game-wrapper">
+                <h2>THE RIFT</h2>
+                <p style="color:#777;">
+                    로그인 또는 계정을 생성하세요.
+                </p>
+
+                <input
+                    id="username"
+                    class="input"
+                    type="text"
+                    placeholder="아이디"
+                    maxlength="30"
+                >
+
+                <input
+                    id="password"
+                    class="input"
+                    type="password"
+                    placeholder="비밀번호"
+                    maxlength="100"
+                >
+
+                <div id="loginMessage" class="message"></div>
+
+                <div class="login-buttons">
+                    <button class="btn btn-primary" onclick="login()">
+                        로그인
+                    </button>
+
+                    <button class="btn" onclick="register()">
+                        회원가입
+                    </button>
+                </div>
+
+                <button
+                    class="btn"
+                    style="width:100%;margin-top:10px;"
+                    onclick="showScreen('mainScreen')"
+                >
+                    돌아가기
+                </button>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- GAME -->
+    <section id="gameScreen" class="screen hidden">
+        <div class="container">
 
             <div class="game-header">
-                <div class="rift-name">
-                    RIFT-001
+                <div class="game-title">RIFT-001</div>
+                <div id="timer" class="timer">00:00.000</div>
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <div class="stat-label">HP</div>
+                    <div id="playerHp" class="stat-value">100</div>
                 </div>
 
-                <div id="timer" class="timer">
+                <div class="stat">
+                    <div class="stat-label">ATK</div>
+                    <div id="playerAttack" class="stat-value">10</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-label">DEF</div>
+                    <div id="playerDefense" class="stat-value">3</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-label">ROOM</div>
+                    <div id="roomNumber" class="stat-value">1 / 5</div>
+                </div>
+
+            </div>
+
+            <div id="room" class="room"></div>
+
+        </div>
+    </section>
+
+
+    <!-- RANKING -->
+    <section id="rankingScreen" class="screen hidden">
+        <div class="container">
+
+            <div class="panel">
+
+                <h2>RANKING</h2>
+
+                <div style="color:#777;">
+                    RIFT-001 / PERSONAL BEST
+                </div>
+
+                <div id="rankingList" class="ranking-list">
+                    불러오는 중...
+                </div>
+
+                <button
+                    class="btn"
+                    style="width:100%;margin-top:25px;"
+                    onclick="showScreen('mainScreen')"
+                >
+                    돌아가기
+                </button>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- CLEAR -->
+    <section id="clearScreen" class="screen hidden">
+        <div class="container">
+
+            <div class="panel" style="text-align:center;">
+
+                <div style="color:#777;letter-spacing:3px;">
+                    RIFT CLEARED
+                </div>
+
+                <h1>균열을 돌파했다.</h1>
+
+                <div id="clearTime" class="clear-time">
                     00:00.000
                 </div>
-            </div>
 
-            <div class="status-panel">
-
-                <div class="status-box">
-                    <div class="status-label">HP</div>
-                    <div id="playerHp" class="status-value">100 / 100</div>
+                <div id="recordMessage" class="record hidden">
+                    NEW RECORD
                 </div>
 
-                <div class="status-box">
-                    <div class="status-label">ATTACK</div>
-                    <div id="playerAttack" class="status-value">10</div>
-                </div>
-
-                <div class="status-box">
-                    <div class="status-label">DEFENSE</div>
-                    <div id="playerDefense" class="status-value">3</div>
-                </div>
-
-            </div>
-
-            <div class="game-card">
-
-                <h2 id="roomTitle">
-                    균열 내부
-                </h2>
-
-                <div id="roomDescription" class="game-description">
-                    균열이 당신을 받아들였다.<br>
-                    앞에 여러 갈래의 길이 나타난다.
-                </div>
-
-                <div id="choiceArea" class="choice-grid">
-
-                    <button class="choice-button" onclick="chooseRoom('battle')">
-                        ⚔ 전투
+                <div>
+                    <button
+                        class="btn btn-primary"
+                        onclick="startGame()"
+                    >
+                        다시 도전
                     </button>
 
-                    <button class="choice-button" onclick="chooseRoom('treasure')">
-                        ◆ 보물
+                    <button
+                        class="btn"
+                        onclick="openRanking()"
+                    >
+                        랭킹
                     </button>
 
-                    <button class="choice-button" onclick="chooseRoom('event')">
-                        ? 이벤트
+                    <button
+                        class="btn"
+                        onclick="showScreen('mainScreen')"
+                    >
+                        메인
                     </button>
-
                 </div>
-
-                <button class="back-button" onclick="goMain()">
-                    ← 메인으로
-                </button>
 
             </div>
 
         </div>
-
     </section>
 
 
-    <!-- =========================
-         RANKING SCREEN
-    ========================= -->
+<script>
 
-    <section id="rankingScreen" class="screen">
+    /* ==========================================
+       CONFIG
+    ========================================== */
 
-        <div class="ranking-wrapper">
-
-            <div class="ranking-title">
-                <h2>RIFT RANKING</h2>
-                <p>RIFT-001</p>
-            </div>
-
-            <table class="ranking-table">
-
-                <thead>
-                    <tr>
-                        <th>RANK</th>
-                        <th>PLAYER</th>
-                        <th>TIME</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>1</td>
-                        <td>RiftWalker</td>
-                        <td>02:31.442</td>
-                    </tr>
-
-                    <tr>
-                        <td>2</td>
-                        <td>Void</td>
-                        <td>02:45.123</td>
-                    </tr>
-
-                    <tr>
-                        <td>3</td>
-                        <td>Unknown</td>
-                        <td>02:51.881</td>
-                    </tr>
-
-                    <tr>
-                        <td>4</td>
-                        <td>Player01</td>
-                        <td>03:02.442</td>
-                    </tr>
-
-                    <tr>
-                        <td>5</td>
-                        <td>Player02</td>
-                        <td>03:11.927</td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-            <div style="text-align:center;">
-                <button class="back-button" onclick="goMain()">
-                    ← 메인으로
-                </button>
-            </div>
-
-        </div>
-
-    </section>
+    var API_BASE = 'https://the-rift-api.onrender.com';
 
 
-    <!-- =========================
-         CLEAR SCREEN
-    ========================= -->
+    /* ==========================================
+       STATE
+    ========================================== */
 
-    <section id="clearScreen" class="screen">
+    var token = localStorage.getItem('rift_token');
+    var currentUser = null;
 
-        <div class="clear-box">
-
-            <h1>RIFT CLEAR</h1>
-
-            <div class="clear-time" id="clearTime">
-                00:00.000
-            </div>
-
-            <p>
-                균열의 끝에 도달했습니다.
-            </p>
-
-            <br>
-
-            <button class="main-button" onclick="startGame()">
-                다시 도전
-            </button>
-
-            <br>
-
-            <button class="back-button" onclick="goMain()">
-                메인으로
-            </button>
-
-        </div>
-
-    </section>
+    var game = {
+        room: 1,
+        hp: 100,
+        maxHp: 100,
+        attack: 10,
+        defense: 3,
+        startTime: null,
+        serverStartTime: null,
+        timerInterval: null,
+        enemy: null,
+        turn: 0,
+        heavyCooldown: 0,
+        defending: false
+    };
 
 
-    <script>
+    var monsters = [
+        {
+            name: '균열의 쥐',
+            hp: 20,
+            attack: 5
+        },
+        {
+            name: '공허의 망령',
+            hp: 30,
+            attack: 7
+        },
+        {
+            name: '균열의 기사',
+            hp: 40,
+            attack: 9
+        },
+        {
+            name: '뒤틀린 골렘',
+            hp: 55,
+            attack: 11
+        },
+        {
+            name: '심연의 사냥개',
+            hp: 35,
+            attack: 13
+        }
+    ];
 
-        var currentScreen = "mainScreen";
 
-        var gameStartTime = 0;
-        var timerInterval = null;
+    /* ==========================================
+       SCREEN
+    ========================================== */
 
-        var player = {
+    function showScreen(id) {
+
+        var screens = document.querySelectorAll('.screen');
+
+        screens.forEach(function(screen) {
+            screen.classList.add('hidden');
+        });
+
+        document.getElementById(id).classList.remove('hidden');
+    }
+
+
+    /* ==========================================
+       API
+    ========================================== */
+
+    async function api(url, options) {
+
+        options = options || {};
+
+        options.headers = options.headers || {};
+
+        options.headers['Content-Type'] = 'application/json';
+
+        if (token) {
+            options.headers['Authorization'] = 'Bearer ' + token;
+        }
+
+        var response = await fetch(API_BASE + url, options);
+
+        var data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'API 요청에 실패했습니다.');
+        }
+
+        return data;
+    }
+
+
+    /* ==========================================
+       AUTH
+    ========================================== */
+
+    async function register() {
+
+        var username = document.getElementById('username').value.trim();
+        var password = document.getElementById('password').value;
+
+        var message = document.getElementById('loginMessage');
+
+        if (!username || !password) {
+            message.textContent = '아이디와 비밀번호를 입력해주세요.';
+            return;
+        }
+
+        try {
+
+            var data = await api('/api/auth/register', {
+                method: 'POST',
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            });
+
+            token = data.token;
+
+            localStorage.setItem('rift_token', token);
+
+            currentUser = data.user;
+
+            updateUserStatus();
+
+            message.textContent = '회원가입 완료';
+
+            setTimeout(function() {
+                openGame();
+            }, 500);
+
+        } catch (error) {
+
+            message.textContent = error.message;
+
+        }
+    }
+
+
+    async function login() {
+
+        var username = document.getElementById('username').value.trim();
+        var password = document.getElementById('password').value;
+
+        var message = document.getElementById('loginMessage');
+
+        if (!username || !password) {
+            message.textContent = '아이디와 비밀번호를 입력해주세요.';
+            return;
+        }
+
+        try {
+
+            var data = await api('/api/auth/login', {
+                method: 'POST',
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            });
+
+            token = data.token;
+
+            localStorage.setItem('rift_token', token);
+
+            currentUser = data.user;
+
+            updateUserStatus();
+
+            message.textContent = '로그인 성공';
+
+            setTimeout(function() {
+                openGame();
+            }, 300);
+
+        } catch (error) {
+
+            message.textContent = error.message;
+
+        }
+    }
+
+
+    async function loadMe() {
+
+        if (!token) {
+            updateUserStatus();
+            return;
+        }
+
+        try {
+
+            var data = await api('/api/auth/me');
+
+            currentUser = data.user;
+
+        } catch (error) {
+
+            token = null;
+            currentUser = null;
+
+            localStorage.removeItem('rift_token');
+        }
+
+        updateUserStatus();
+    }
+
+
+    function logout() {
+
+        token = null;
+        currentUser = null;
+
+        localStorage.removeItem('rift_token');
+
+        updateUserStatus();
+
+        showScreen('mainScreen');
+    }
+
+
+    function updateUserStatus() {
+
+        var status = document.getElementById('userStatus');
+        var button = document.getElementById('loginMenuButton');
+
+        if (currentUser) {
+
+            status.innerHTML =
+                currentUser.username + ' 님 로그인 중 ' +
+                '<button class="btn" style="padding:5px 10px;margin-left:8px;" onclick="logout()">로그아웃</button>';
+
+            button.textContent = '게임 시작';
+
+        } else {
+
+            status.textContent = '로그인이 필요합니다.';
+            button.textContent = '로그인';
+        }
+    }
+
+
+    function openLogin() {
+
+        document.getElementById('loginMessage').textContent = '';
+
+        showScreen('loginScreen');
+    }
+
+
+    /* ==========================================
+       GAME ENTRY
+    ========================================== */
+
+    function openGame() {
+
+        if (!token || !currentUser) {
+
+            openLogin();
+
+            return;
+        }
+
+        startGame();
+    }
+
+
+    async function startGame() {
+
+        try {
+
+            var data = await api('/api/rift/start', {
+                method: 'POST',
+                body: JSON.stringify({})
+            });
+
+            game.room = 1;
+            game.hp = 100;
+            game.maxHp = 100;
+            game.attack = 10;
+            game.defense = 3;
+            game.enemy = null;
+            game.turn = 0;
+            game.heavyCooldown = 0;
+            game.defending = false;
+
+            game.serverStartTime = data.startTime;
+            game.startTime = Date.now();
+
+            startTimer();
+
+            showScreen('gameScreen');
+
+            renderRoom();
+
+        } catch (error) {
+
+            alert(error.message);
+
+            if (error.message.indexOf('로그인') >= 0) {
+                openLogin();
+            }
+        }
+    }
+
+
+    function startTimer() {
+
+        if (game.timerInterval) {
+            clearInterval(game.timerInterval);
+        }
+
+        game.timerInterval = setInterval(function() {
+
+            var elapsed = Date.now() - game.startTime;
+
+            document.getElementById('timer').textContent =
+                formatTime(elapsed);
+
+        }, 50);
+    }
+
+
+    function stopTimer() {
+
+        if (game.timerInterval) {
+            clearInterval(game.timerInterval);
+            game.timerInterval = null;
+        }
+    }
+
+
+    /* ==========================================
+       ROOM
+    ========================================== */
+
+    function renderRoom() {
+
+        document.getElementById('roomNumber').textContent =
+            game.room + ' / 5';
+
+        if (game.room === 5) {
+
+            startBoss();
+
+            return;
+        }
+
+        var roll = Math.floor(Math.random() * 3);
+
+        if (roll === 0) {
+            renderBattleRoom();
+        } else if (roll === 1) {
+            renderTreasureRoom();
+        } else {
+            renderEventRoom();
+        }
+    }
+
+
+    function renderBattleRoom() {
+
+        var monster =
+            monsters[Math.floor(Math.random() * monsters.length)];
+
+        game.enemy = {
+            name: monster.name,
+            hp: monster.hp,
+            maxHp: monster.hp,
+            attack: monster.attack,
+            boss: false
+        };
+
+        game.turn = 0;
+        game.heavyCooldown = 0;
+        game.defending = false;
+
+        renderCombat();
+    }
+
+
+    function renderCombat() {
+
+        var room = document.getElementById('room');
+
+        room.innerHTML = '';
+
+        var title = document.createElement('div');
+        title.className = 'room-title';
+        title.textContent =
+            game.enemy.boss ? '균열의 군주' : '전투';
+
+        var description = document.createElement('div');
+        description.className = 'room-description';
+        description.textContent =
+            '눈앞의 적을 쓰러뜨려라.';
+
+        var enemy = document.createElement('div');
+        enemy.className = 'combat-enemy';
+
+        enemy.innerHTML =
+            '<div class="enemy-name">' +
+            escapeHtml(game.enemy.name) +
+            '</div>' +
+            '<div class="enemy-hp">HP ' +
+            game.enemy.hp +
+            ' / ' +
+            game.enemy.maxHp +
+            '</div>';
+
+        var actions = document.createElement('div');
+        actions.className = 'combat-actions';
+
+        var attackButton =
+            createButton('공격', function() {
+                playerAttack();
+            });
+
+        var defenseButton =
+            createButton('방어', function() {
+                playerDefense();
+            });
+
+        var heavyButton =
+            createButton(
+                game.heavyCooldown > 0
+                    ? '강타 (' + game.heavyCooldown + ')'
+                    : '강타',
+                function() {
+                    heavyAttack();
+                }
+            );
+
+        if (game.heavyCooldown > 0) {
+            heavyButton.disabled = true;
+        }
+
+        actions.appendChild(attackButton);
+        actions.appendChild(defenseButton);
+        actions.appendChild(heavyButton);
+
+        var log = document.createElement('div');
+        log.id = 'combatLog';
+        log.className = 'combat-log';
+
+        log.textContent =
+            '전투가 시작됐다.';
+
+        room.appendChild(
+            document.createElement('div')
+        );
+
+        room.appendChild(
+            document.createTextNode('')
+        );
+
+        room.insertBefore(
+            title,
+            room.firstChild
+        );
+
+        room.appendChild(description);
+        room.appendChild(enemy);
+        room.appendChild(actions);
+        room.appendChild(log);
+    }
+
+
+    function createButton(text, callback) {
+
+        var button = document.createElement('button');
+
+        button.className = 'choice';
+        button.textContent = text;
+
+        button.onclick = callback;
+
+        return button;
+    }
+
+
+    function playerAttack() {
+
+        var damage = game.attack;
+
+        game.enemy.hp -= damage;
+
+        addCombatLog(
+            '당신의 공격! ' + damage + ' 피해.'
+        );
+
+        if (checkEnemyDead()) {
+            return;
+        }
+
+        enemyTurn();
+    }
+
+
+    function heavyAttack() {
+
+        if (game.heavyCooldown > 0) {
+            return;
+        }
+
+        var damage = game.attack * 2;
+
+        game.enemy.hp -= damage;
+
+        game.heavyCooldown = 3;
+
+        addCombatLog(
+            '강타! ' + damage + ' 피해.'
+        );
+
+        if (checkEnemyDead()) {
+            return;
+        }
+
+        enemyTurn();
+    }
+
+
+    function playerDefense() {
+
+        game.defending = true;
+
+        addCombatLog(
+            '방어 자세를 취했다.'
+        );
+
+        enemyTurn();
+    }
+
+
+    function enemyTurn() {
+
+        game.turn++;
+
+        if (game.heavyCooldown > 0) {
+            game.heavyCooldown--;
+        }
+
+        var damage = game.enemy.attack;
+
+        if (
+            game.enemy.boss &&
+            game.turn % 3 === 0
+        ) {
+            damage *= 2;
+
+            addCombatLog(
+                '균열의 군주가 강력한 공격을 준비했다!'
+            );
+        }
+
+        if (game.defending) {
+            damage = Math.floor(damage * 0.5);
+
+            game.defending = false;
+        }
+
+        damage = Math.max(
+            1,
+            damage - game.defense
+        );
+
+        game.hp -= damage;
+
+        addCombatLog(
+            game.enemy.name +
+            '의 공격! ' +
+            damage +
+            ' 피해.'
+        );
+
+        updateStats();
+
+        if (game.hp <= 0) {
+
+            game.hp = 0;
+
+            gameOver();
+
+            return;
+        }
+
+        renderCombat();
+    }
+
+
+    function addCombatLog(text) {
+
+        var log = document.getElementById('combatLog');
+
+        if (!log) {
+            return;
+        }
+
+        log.textContent += '\n' + text;
+
+        log.scrollTop = log.scrollHeight;
+    }
+
+
+    function checkEnemyDead() {
+
+        if (game.enemy.hp > 0) {
+
+            renderCombat();
+
+            return false;
+        }
+
+        if (game.enemy.boss) {
+
+            completeGame();
+
+            return true;
+        }
+
+        renderBattleReward();
+
+        return true;
+    }
+
+
+    function renderBattleReward() {
+
+        var room = document.getElementById('room');
+
+        room.innerHTML =
+            '<div class="room-number">BATTLE CLEAR</div>' +
+            '<div class="room-title">전투 승리</div>' +
+            '<div class="room-description">' +
+            '보상을 선택하세요.' +
+            '</div>';
+
+        var choices = document.createElement('div');
+
+        choices.className = 'choice-list';
+
+        choices.appendChild(
+            createButton(
+                '공격력 +3',
+                function() {
+                    game.attack += 3;
+                    nextRoom();
+                }
+            )
+        );
+
+        choices.appendChild(
+            createButton(
+                '최대 HP +10',
+                function() {
+                    game.maxHp += 10;
+                    game.hp += 10;
+                    nextRoom();
+                }
+            )
+        );
+
+        choices.appendChild(
+            createButton(
+                'HP +20',
+                function() {
+                    game.hp = Math.min(
+                        game.maxHp,
+                        game.hp + 20
+                    );
+
+                    nextRoom();
+                }
+            )
+        );
+
+        room.appendChild(choices);
+    }
+
+
+    /* ==========================================
+       TREASURE
+    ========================================== */
+
+    function renderTreasureRoom() {
+
+        var room = document.getElementById('room');
+
+        room.innerHTML =
+            '<div class="room-number">TREASURE</div>' +
+            '<div class="room-title">보물 발견</div>' +
+            '<div class="room-description">' +
+            '하나를 선택하세요.' +
+            '</div>';
+
+        var choices = document.createElement('div');
+
+        choices.className = 'choice-list';
+
+        choices.appendChild(
+            createButton(
+                '공격력 +5',
+                function() {
+                    game.attack += 5;
+                    nextRoom();
+                }
+            )
+        );
+
+        choices.appendChild(
+            createButton(
+                '방어력 +2',
+                function() {
+                    game.defense += 2;
+                    nextRoom();
+                }
+            )
+        );
+
+        choices.appendChild(
+            createButton(
+                '최대 HP +20',
+                function() {
+                    game.maxHp += 20;
+                    game.hp += 20;
+                    nextRoom();
+                }
+            )
+        );
+
+        room.appendChild(choices);
+    }
+
+
+    /* ==========================================
+       EVENT
+    ========================================== */
+
+    function renderEventRoom() {
+
+        var room = document.getElementById('room');
+
+        room.innerHTML =
+            '<div class="room-number">EVENT</div>' +
+            '<div class="room-title">수상한 제단</div>' +
+            '<div class="room-description">' +
+            '제단에서 무언가 속삭이고 있다.' +
+            '</div>';
+
+        var choices = document.createElement('div');
+
+        choices.className = 'choice-list';
+
+        choices.appendChild(
+            createButton(
+                '힘을 받아들인다 (ATK +8 / HP -10)',
+                function() {
+
+                    game.attack += 8;
+
+                    game.hp = Math.max(
+                        1,
+                        game.hp - 10
+                    );
+
+                    nextRoom();
+                }
+            )
+        );
+
+        choices.appendChild(
+            createButton(
+                '지나간다',
+                function() {
+                    nextRoom();
+                }
+            )
+        );
+
+        room.appendChild(choices);
+    }
+
+
+    function nextRoom() {
+
+        game.room++;
+
+        updateStats();
+
+        renderRoom();
+    }
+
+
+    /* ==========================================
+       BOSS
+    ========================================== */
+
+    function startBoss() {
+
+        game.enemy = {
+            name: '균열의 군주',
             hp: 100,
             maxHp: 100,
             attack: 10,
-            defense: 3
+            boss: true
         };
 
-        var roomCount = 0;
+        game.turn = 0;
+        game.heavyCooldown = 0;
+        game.defending = false;
+
+        renderCombat();
+    }
 
 
-        function showScreen(screenId) {
+    /* ==========================================
+       COMPLETE
+    ========================================== */
 
-            var screens = document.querySelectorAll(".screen");
+    async function completeGame() {
 
-            screens.forEach(function(screen) {
-                screen.classList.remove("active");
+        stopTimer();
+
+        try {
+
+            var data = await api('/api/rift/complete', {
+                method: 'POST',
+                body: JSON.stringify({
+                    startTime: game.serverStartTime
+                })
             });
 
-            document.getElementById(screenId).classList.add("active");
+            document.getElementById('clearTime').textContent =
+                formatTime(data.clearTime);
 
-            currentScreen = screenId;
+            var recordMessage =
+                document.getElementById('recordMessage');
+
+            if (data.isNewRecord) {
+                recordMessage.classList.remove('hidden');
+            } else {
+                recordMessage.classList.add('hidden');
+            }
+
+            showScreen('clearScreen');
+
+        } catch (error) {
+
+            alert(
+                '클리어 기록 저장 실패: ' +
+                error.message
+            );
+
+            showScreen('mainScreen');
         }
+    }
 
 
-        function startGame() {
+    function gameOver() {
 
-            player.hp = 100;
-            player.maxHp = 100;
-            player.attack = 10;
-            player.defense = 3;
+        stopTimer();
 
-            roomCount = 0;
+        alert(
+            '균열에서 쓰러졌다.\n\n기록은 저장되지 않습니다.'
+        );
 
-            updateStatus();
-
-            gameStartTime = Date.now();
-
-            clearInterval(timerInterval);
-
-            timerInterval = setInterval(function() {
-
-                var elapsed = Date.now() - gameStartTime;
-
-                document.getElementById("timer").textContent =
-                    formatTime(elapsed);
-
-            }, 30);
-
-            showScreen("gameScreen");
-
-            resetRoom();
-
-        }
+        showScreen('mainScreen');
+    }
 
 
-        function resetRoom() {
+    /* ==========================================
+       RANKING
+    ========================================== */
 
-            roomCount++;
+    async function openRanking() {
 
-            if (roomCount >= 5) {
+        showScreen('rankingScreen');
 
-                showBoss();
+        var list =
+            document.getElementById('rankingList');
+
+        list.innerHTML = '불러오는 중...';
+
+        try {
+
+            var data =
+                await api('/api/rift/ranking');
+
+            if (!data.ranking ||
+                data.ranking.length === 0) {
+
+                list.innerHTML =
+                    '<div style="padding:20px;color:#777;">' +
+                    '아직 기록이 없습니다.' +
+                    '</div>';
 
                 return;
             }
 
-            document.getElementById("roomTitle").textContent =
-                "균열의 방 " + roomCount;
+            list.innerHTML = '';
 
-            document.getElementById("roomDescription").innerHTML =
-                "균열 내부에서 새로운 길이 나타났다.<br>" +
-                "어떤 길을 선택할 것인가?";
+            data.ranking.forEach(function(item, index) {
 
-            document.getElementById("choiceArea").innerHTML =
+                var row =
+                    document.createElement('div');
 
-                '<button class="choice-button" onclick="chooseRoom(\'battle\')">' +
-                '⚔ 전투' +
-                '</button>' +
+                row.className = 'ranking-row';
 
-                '<button class="choice-button" onclick="chooseRoom(\'treasure\')">' +
-                '◆ 보물' +
-                '</button>' +
+                row.innerHTML =
+                    '<div>' +
+                    (index + 1) +
+                    '</div>' +
+                    '<div>' +
+                    escapeHtml(item.username) +
+                    '</div>' +
+                    '<div class="ranking-time">' +
+                    formatTime(Number(item.clear_time_ms)) +
+                    '</div>';
 
-                '<button class="choice-button" onclick="chooseRoom(\'event\')">' +
-                '? 이벤트' +
-                '</button>';
+                list.appendChild(row);
+            });
+
+        } catch (error) {
+
+            list.innerHTML =
+                '<div style="padding:20px;color:#777;">' +
+                escapeHtml(error.message) +
+                '</div>';
         }
+    }
 
 
-        function chooseRoom(type) {
+    /* ==========================================
+       UI
+    ========================================== */
 
-            if (type === "battle") {
-                showBattle();
-                return;
-            }
+    function updateStats() {
 
-            if (type === "treasure") {
-                showTreasure();
-                return;
-            }
+        document.getElementById('playerHp').textContent =
+            game.hp + ' / ' + game.maxHp;
 
-            if (type === "event") {
-                showEvent();
-                return;
-            }
-        }
+        document.getElementById('playerAttack').textContent =
+            game.attack;
 
+        document.getElementById('playerDefense').textContent =
+            game.defense;
 
-        function showBattle() {
+        document.getElementById('roomNumber').textContent =
+            game.room + ' / 5';
+    }
 
-            var monsterHp = 25;
-            var monsterAttack = 6;
 
-            document.getElementById("roomTitle").textContent =
-                "균열의 망령";
+    function formatTime(ms) {
 
-            document.getElementById("roomDescription").innerHTML =
-                "HP: <strong id='monsterHp'>" + monsterHp + "</strong><br><br>" +
-                "망령이 당신을 바라보고 있다.";
+        ms = Math.max(0, Number(ms) || 0);
 
-            document.getElementById("choiceArea").innerHTML =
+        var minutes =
+            Math.floor(ms / 60000);
 
-                '<button class="choice-button" onclick="attackMonster()">' +
-                '⚔ 공격' +
-                '</button>' +
+        var seconds =
+            Math.floor((ms % 60000) / 1000);
 
-                '<button class="choice-button" onclick="defendMonster()">' +
-                '🛡 방어' +
-                '</button>' +
+        var milliseconds =
+            ms % 1000;
 
-                '<button class="choice-button" onclick="heavyAttack()">' +
-                '◆ 강타' +
-                '</button>';
+        return (
+            String(minutes).padStart(2, '0') +
+            ':' +
+            String(seconds).padStart(2, '0') +
+            '.' +
+            String(milliseconds).padStart(3, '0')
+        );
+    }
 
-            window.currentMonster = {
-                hp: monsterHp,
-                maxHp: monsterHp,
-                attack: monsterAttack,
-                defended: false,
-                heavyCooldown: 0
-            };
-        }
 
+    function escapeHtml(value) {
 
-        function attackMonster() {
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
 
-            var monster = window.currentMonster;
 
-            monster.hp -= player.attack;
+    /* ==========================================
+       INIT
+    ========================================== */
 
-            if (monster.hp <= 0) {
+    loadMe();
 
-                battleWin();
-                return;
-            }
-
-            monsterTurn();
-            updateBattleScreen();
-        }
-
-
-        function heavyAttack() {
-
-            var monster = window.currentMonster;
-
-            if (monster.heavyCooldown > 0) {
-                alert("강타는 아직 사용할 수 없습니다.");
-                return;
-            }
-
-            monster.hp -= player.attack * 2;
-
-            monster.heavyCooldown = 3;
-
-            if (monster.hp <= 0) {
-
-                battleWin();
-                return;
-            }
-
-            monsterTurn();
-            updateBattleScreen();
-        }
-
-
-        function defendMonster() {
-
-            window.currentMonster.defended = true;
-
-            monsterTurn();
-
-            window.currentMonster.defended = false;
-
-            updateBattleScreen();
-        }
-
-
-        function monsterTurn() {
-
-            var monster = window.currentMonster;
-
-            var damage = monster.attack - player.defense;
-
-            if (damage < 1) {
-                damage = 1;
-            }
-
-            if (monster.defended) {
-                damage = Math.floor(damage / 2);
-            }
-
-            player.hp -= damage;
-
-            if (monster.heavyCooldown > 0) {
-                monster.heavyCooldown--;
-            }
-
-            if (player.hp <= 0) {
-
-                player.hp = 0;
-
-                clearInterval(timerInterval);
-
-                alert("YOU DIED");
-
-                goMain();
-
-                return;
-            }
-
-            updateStatus();
-        }
-
-
-        function updateBattleScreen() {
-
-            var monster = window.currentMonster;
-
-            document.getElementById("monsterHp").textContent =
-                Math.max(monster.hp, 0);
-        }
-
-
-        function battleWin() {
-
-            player.attack += 3;
-
-            updateStatus();
-
-            document.getElementById("roomTitle").textContent =
-                "전투 승리";
-
-            document.getElementById("roomDescription").innerHTML =
-                "적을 처치했다.<br>" +
-                "보상으로 공격력이 <strong>+3</strong> 증가했다.";
-
-            document.getElementById("choiceArea").innerHTML =
-
-                '<button class="choice-button" onclick="resetRoom()">' +
-                '다음 방으로' +
-                '</button>';
-        }
-
-
-        function showTreasure() {
-
-            document.getElementById("roomTitle").textContent =
-                "균열의 보물";
-
-            document.getElementById("roomDescription").innerHTML =
-                "오래된 보물 상자가 놓여 있다.<br>" +
-                "하나를 선택할 수 있다.";
-
-            document.getElementById("choiceArea").innerHTML =
-
-                '<button class="choice-button" onclick="takeTreasure(\'attack\')">' +
-                '공격력 +5' +
-                '</button>' +
-
-                '<button class="choice-button" onclick="takeTreasure(\'hp\')">' +
-                '최대 HP +20' +
-                '</button>' +
-
-                '<button class="choice-button" onclick="takeTreasure(\'heal\')">' +
-                'HP +20' +
-                '</button>';
-        }
-
-
-        function takeTreasure(type) {
-
-            if (type === "attack") {
-                player.attack += 5;
-            }
-
-            if (type === "hp") {
-                player.maxHp += 20;
-                player.hp += 20;
-            }
-
-            if (type === "heal") {
-                player.hp += 20;
-
-                if (player.hp > player.maxHp) {
-                    player.hp = player.maxHp;
-                }
-            }
-
-            updateStatus();
-
-            resetRoom();
-        }
-
-
-        function showEvent() {
-
-            document.getElementById("roomTitle").textContent =
-                "수상한 제단";
-
-            document.getElementById("roomDescription").innerHTML =
-                "제단에서 정체불명의 힘이 흘러나온다.<br>" +
-                "힘을 받아들일 것인가?";
-
-            document.getElementById("choiceArea").innerHTML =
-
-                '<button class="choice-button" onclick="acceptPower()">' +
-                '힘을 받아들인다' +
-                '</button>' +
-
-                '<button class="choice-button" onclick="resetRoom()">' +
-                '지나간다' +
-                '</button>';
-        }
-
-
-        function acceptPower() {
-
-            player.attack += 8;
-            player.hp -= 10;
-
-            if (player.hp < 1) {
-                player.hp = 1;
-            }
-
-            updateStatus();
-
-            resetRoom();
-        }
-
-
-        function showBoss() {
-
-            var bossHp = 100;
-
-            document.getElementById("roomTitle").textContent =
-                "균열의 군주";
-
-            document.getElementById("roomDescription").innerHTML =
-                "균열의 끝.<br>" +
-                "거대한 존재가 당신을 기다리고 있다.<br><br>" +
-                "BOSS HP: <strong id='bossHp'>" + bossHp + "</strong>";
-
-            document.getElementById("choiceArea").innerHTML =
-
-                '<button class="choice-button" onclick="attackBoss()">' +
-                '⚔ 공격' +
-                '</button>' +
-
-                '<button class="choice-button" onclick="defendBoss()">' +
-                '🛡 방어' +
-                '</button>' +
-
-                '<button class="choice-button" onclick="heavyBoss()">' +
-                '◆ 강타' +
-                '</button>';
-
-            window.currentBoss = {
-                hp: bossHp,
-                attack: 10,
-                defended: false
-            };
-        }
-
-
-        function attackBoss() {
-
-            var boss = window.currentBoss;
-
-            boss.hp -= player.attack;
-
-            if (boss.hp <= 0) {
-                clearGame();
-                return;
-            }
-
-            bossTurn();
-            updateBossScreen();
-        }
-
-
-        function heavyBoss() {
-
-            var boss = window.currentBoss;
-
-            boss.hp -= player.attack * 2;
-
-            if (boss.hp <= 0) {
-                clearGame();
-                return;
-            }
-
-            bossTurn();
-            updateBossScreen();
-        }
-
-
-        function defendBoss() {
-
-            window.currentBoss.defended = true;
-
-            bossTurn();
-
-            window.currentBoss.defended = false;
-
-            updateBossScreen();
-        }
-
-
-        function bossTurn() {
-
-            var boss = window.currentBoss;
-
-            var damage = boss.attack - player.defense;
-
-            if (damage < 1) {
-                damage = 1;
-            }
-
-            if (boss.defended) {
-                damage = Math.floor(damage / 2);
-            }
-
-            player.hp -= damage;
-
-            if (player.hp <= 0) {
-
-                player.hp = 0;
-
-                clearInterval(timerInterval);
-
-                alert("YOU DIED");
-
-                goMain();
-
-                return;
-            }
-
-            updateStatus();
-        }
-
-
-        function updateBossScreen() {
-
-            var boss = window.currentBoss;
-
-            document.getElementById("bossHp").textContent =
-                Math.max(boss.hp, 0);
-        }
-
-
-        function clearGame() {
-
-            clearInterval(timerInterval);
-
-            var clearTime = Date.now() - gameStartTime;
-
-            document.getElementById("clearTime").textContent =
-                formatTime(clearTime);
-
-            showScreen("clearScreen");
-        }
-
-
-        function updateStatus() {
-
-            document.getElementById("playerHp").textContent =
-                player.hp + " / " + player.maxHp;
-
-            document.getElementById("playerAttack").textContent =
-                player.attack;
-
-            document.getElementById("playerDefense").textContent =
-                player.defense;
-        }
-
-
-        function showRanking() {
-
-            showScreen("rankingScreen");
-        }
-
-
-        function goMain() {
-
-            clearInterval(timerInterval);
-
-            showScreen("mainScreen");
-        }
-
-
-        function formatTime(ms) {
-
-            var minutes = Math.floor(ms / 60000);
-
-            var seconds = Math.floor((ms % 60000) / 1000);
-
-            var milliseconds = ms % 1000;
-
-            return String(minutes).padStart(2, "0") +
-                ":" +
-                String(seconds).padStart(2, "0") +
-                "." +
-                String(milliseconds).padStart(3, "0");
-        }
-
-    </script>
+</script>
 
 </body>
 </html>
