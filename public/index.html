@@ -610,7 +610,8 @@
         enemy: null,
         turn: 0,
         heavyCooldown: 0,
-        defending: false
+        defending: false,
+        actionLocked: false
     };
 
 
@@ -881,6 +882,7 @@
             game.turn = 0;
             game.heavyCooldown = 0;
             game.defending = false;
+            game.actionLocked = false;
 
             game.serverStartTime = data.startTime;
             game.startTime = Date.now();
@@ -1079,6 +1081,12 @@
 
     function playerAttack() {
 
+        if (game.actionLocked) {
+            return;
+        }
+
+        game.actionLocked = true;
+
         var damage = game.attack;
 
         game.enemy.hp -= damage;
@@ -1097,9 +1105,15 @@
 
     function heavyAttack() {
 
+        if (game.actionLocked) {
+            return;
+        }
+
         if (game.heavyCooldown > 0) {
             return;
         }
+
+        game.actionLocked = true;
 
         var damage = game.attack * 2;
 
@@ -1121,6 +1135,12 @@
 
     function playerDefense() {
 
+        if (game.actionLocked) {
+            return;
+        }
+
+        game.actionLocked = true;
+
         game.defending = true;
 
         addCombatLog(
@@ -1129,7 +1149,6 @@
 
         enemyTurn();
     }
-
 
     function enemyTurn() {
 
@@ -1178,10 +1197,14 @@
 
             game.hp = 0;
 
+            game.actionLocked = false;
+
             gameOver();
 
             return;
         }
+
+        game.actionLocked = false;
 
         renderCombat();
     }
